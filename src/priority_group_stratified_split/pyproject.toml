@@ -1,0 +1,25 @@
+# Basic package congif (Hatchling) done by following https://packaging.python.org/en/latest/tutorials/packaging-projects/
+#TODO: Change to setup tools? Seems to be more popular
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "priority_group_stratified_split"
+version = "0.0.1"
+authors = [
+    {name="João Pedro Medrado Sena", email="joaopedromsena@gmail.com" },
+    {name="Felipe Ferreira Marra", email="felipeferreiramarra@gmail.com" },
+]
+description = "Priority Group Stratified Split"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/jpmedras/priority_group_stratified_split"
+Issues = "https://github.com/jpmedras/priority_group_stratified_split/issues"
