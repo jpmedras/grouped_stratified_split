@@ -1,7 +1,3 @@
-from types import UnionType
-from typing import Any
-
-
 class Group:
     def __init__(self, uid:int, label:str, size:int) -> None:
         """
