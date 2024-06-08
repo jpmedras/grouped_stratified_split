@@ -46,7 +46,7 @@ class GroupSet:
         self._groups = set(groups) if groups else set()
         self._uid_indexer = None
         self._label_indexer = None
-        
+
         # Init and calc labels and total_size
         self._labels = set()
         self._total_size = 0
@@ -58,10 +58,10 @@ class GroupSet:
 
 
     def __repr__(self) -> str:
-        return f"Groups({self._groups})"
+        return f"GroupSet({self._groups})" if len(self._groups) > 0 else 'GroupSet()' 
 
     def __str__(self) -> str:
-        return str(self._groups)
+        return f"GroupSet({self._groups})" if len(self._groups) > 0 else 'GroupSet()' 
 
     def __len__(self):
         return len(self._groups) if self._groups else 0
