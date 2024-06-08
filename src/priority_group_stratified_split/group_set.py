@@ -1,6 +1,10 @@
 class Group:
     def __init__(self, uid:int, label:str, size:int) -> None:
         """
+        Description:
+            An entity that represents a group of samples
+        
+        Parameters:
             uid: a unique id for this group
             g_class: the class label for the samples in this group
             size: number of samples in this group
@@ -30,7 +34,14 @@ class Group:
     def size(self):
         return self._size
 
-class Groups:
+class GroupSet:
+    """
+    Description:
+    A set of Group objects
+
+    Parameters:
+        groups: A list of Groups
+    """
     def __init__(self, groups:list[Group]=None) -> None:
         self._groups = set(groups) if groups else set()
         self._uid_indexer = None
@@ -58,17 +69,17 @@ class Groups:
     def __iter__(self):
         return iter(self._groups)
 
-    def __or__(self, other: 'Groups') -> 'Groups':
-        return Groups(self._groups | other._groups)
+    def __or__(self, other: 'GroupSet') -> 'GroupSet':
+        return GroupSet(self._groups | other._groups)
 
-    def __sub__(self, other: 'Groups') -> 'Groups':
-        return Groups(self._groups - other._groups)
+    def __sub__(self, other: 'GroupSet') -> 'GroupSet':
+        return GroupSet(self._groups - other._groups)
 
-    def __isub__(self, other: 'Groups') -> 'Groups':
-        self = Groups(self._groups - other._groups)
+    def __isub__(self, other: 'GroupSet') -> 'GroupSet':
+        self = GroupSet(self._groups - other._groups)
         return self
 
-    def __eq__(self, other: 'Groups') -> bool:
+    def __eq__(self, other: 'GroupSet') -> bool:
         return self._groups == other._groups
 
     @property
@@ -96,7 +107,7 @@ class Groups:
 
             for g in self._groups:
                 if g._label not in self._label_indexer:
-                    self._label_indexer[g._label] = Groups()
+                    self._label_indexer[g._label] = GroupSet()
 
                 self._label_indexer[g._label].add(g)
 

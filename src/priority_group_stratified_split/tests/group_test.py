@@ -1,7 +1,7 @@
 import sys
 sys.path.append('./src/priority_group_stratified_split')
 
-from groups import Group, Groups
+from group_set import Group, GroupSet
 
 groups_count = 0
 
@@ -24,8 +24,8 @@ def create_groups(n:int, seq_labels:int):
 groups1 = create_groups(5, 3)
 groups2 = create_groups(5, 3)
 
-groups1 = Groups(groups1)
-groups2 = Groups(groups2)
+groups1 = GroupSet(groups1)
+groups2 = GroupSet(groups2)
 
 print(groups1, groups1.total_size)
 print()
