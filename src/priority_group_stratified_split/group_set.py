@@ -69,7 +69,7 @@ class GroupSet:
     def __iter__(self):
         return iter(self._groups)
 
-    def __or__(self, other: 'GroupSet') -> 'GroupSet':
+    def __or__(self, other) -> 'GroupSet':
         return GroupSet(self._groups | other._groups)
 
     def __sub__(self, other: 'GroupSet') -> 'GroupSet':
@@ -92,6 +92,7 @@ class GroupSet:
 
     def add(self, group:Group):
         self._groups.add(group)
+        self._total_size += group.size
 
     def get_uid_indexer(self) -> dict[int: Group]:
         if self._uid_indexer is None:

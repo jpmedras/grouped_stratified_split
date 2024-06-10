@@ -2,7 +2,7 @@ import sys
 sys.path.append('./src/priority_group_stratified_split')
 
 from group_set import Group, GroupSet
-from get_split import backward, best_size_groups
+from get_split import backward, best_size_groups, get_split
 
 #################
 # Test Backward
@@ -36,3 +36,12 @@ print(selected_groups)
 
 selected_groups = best_size_groups(groups, 5)
 print(selected_groups)
+
+#################
+# Test Get Split 
+#################
+print('\n ################# Test Get Split #################')
+groups = [Group(0, 'A', 40), Group(1, 'B', 40), Group(2, 'A', 2), Group(3, 'B', 8), Group(4, 'A', 4), Group(5, 'B', 6)]
+groups = GroupSet(groups)
+sets = get_split(groups, [0.8, 0.1, 0.1])
+print(sets)
