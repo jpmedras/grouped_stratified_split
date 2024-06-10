@@ -42,4 +42,12 @@ Our target value will be round(0.1*54)=5. Wich yields `Group(5, 'B', 6)`
 So for the eval set our algorithm returned Group(4, 'A', 4) and Group(5, 'B', 6), since 4 + 6 amounts to 10 and we've got a distribution of almost 50% percent of the slices for each class, this is an optimal solution.
 
 ## Usage
-As desmostrated in the example a group in our implementation in defined as `Group(ID, CLASS, SIZE)`. A set of groups is represented by the class `GroupSet`, wich expects a list of `Group`s. The function `get_split` receives the`GroupSet` that represent your dataset and the split you want to create, which would be `[0.8, 0.1, 0.1]` in our exaple. `get_split` returns a list of `GroupSet`s that correspond to the specified split. 
+As desmostrated in the example a group in our implementation in defined as `Group(ID, CLASS, SIZE)`. A set of groups is represented by the class `GroupSet`, wich expects a list of `Group`s. The function `get_split` receives the`GroupSet` that represent your dataset and the split you want to create, which would be `[0.8, 0.1, 0.1]` in our exaple. `get_split` returns a list of `GroupSet`s that correspond to the specified split. Following our example we would have:
+```Python
+groups = [Group(0, 'A', 40), Group(1, 'B', 40), Group(2, 'A', 2), Group(3, 'B', 8), Group(4, 'A', 4), Group(5, 'B', 6)]
+groups = GroupSet(groups)
+sets = get_split(groups, [0.8, 0.1, 0.1])
+print(sets)
+
+# Displays: [GroupSet({Group(0, A, 40), Group(1, B, 40)}), GroupSet({Group(4, A, 4), Group(5, B, 6)}), GroupSet({Group(2, A, 2), Group(3, B, 8)})]
+```
