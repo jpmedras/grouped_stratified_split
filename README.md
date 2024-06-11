@@ -1,8 +1,8 @@
 # Priority Stratified Group Split
 ## The Problem
-Video classifying can be a challenging task, not only for the construction of the neural model itself, but also for the dataset split into train, validation and test sets. The videos are generally split into smaller slices/segments of a few seconds. Each of these arrays of segments is considered a group. These groups can’t repeat in the split sets, that is, if a group is present in the train set, it can’t have any of its segments also present in the validation or test sets. This work aims to respond to the following question: **How to distribute the groups of different sizes between the split sets balanced by its classes?**
+Video classification can be a challenging task, not only for the construction of the neural model itself, but also for the dataset split into train, validation and test sets. The videos are generally split into smaller slices/segments of a few seconds. Each of these arrays of segments is considered a group. These groups can’t repeat in the split sets, that is, if a group is present in the train set, it can’t have any of its segments also present in the validation or test sets. This work aims to respond to the following question: **How to distribute the groups of different sizes between the split sets balanced by its classes?**
 
-More specifically, this work will deal with the split of the [NES-MVDB](https://github.com/rubensolv/NES-VMDB) dataset. It contains gameplay videos of all the Nintendo Entertainment System (NES) games. We want to classify these videos by genre. The dataset contain the two following tables:
+More specifically, this work aims to deal with the split of the [NES-MVDB](https://github.com/rubensolv/NES-VMDB) dataset. It contains gameplay videos of all the Nintendo Entertainment System (NES) games. We want to classify these videos by genre. The dataset contain the two following tables:
 
 <img src="https://github.com/jpmedras/priority_group_stratified_split/blob/main/assets/imgs/slices_table.png" width="720px" align="center" alt="Slices Table">
 
@@ -10,12 +10,12 @@ More specifically, this work will deal with the split of the [NES-MVDB](https://
 
 <br>
 
-Since we’ve got 95.899 segments, an 80:10:10 split would ideally have 9.590 segments for validation, that same amount for test, and 76.719 for train. Another way of doing that would be to perform an 80:10:10 split for each game genre, that is, a stratified split, that would guarantee that the sets are balanced by genre. Again, the problem is that each group of gameplay segments can’t overlap each other inside the split sets.
+Since we’ve got 95.899 segments, an 80:10:10 split would ideally have 9.590 segments for validation, that same amount for test, and 76.719 for train. Another way of doing that would be to perform an 80:10:10 split for each game genre, that is, a stratified split, that would guarantee that the sets are balanced by genre. First dealing with the smaller sets, and leaving the rest for train. Again, the problem is that each group of gameplay segments can’t overlap each other inside the split sets, and each group contains a "random" number of segments.
 
-The Scikit Learn library already contains a [StratifiedGroupKFold](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedGroupKFold.html#stratifiedgroupkfold) function, which performs the split of the non overlapping groups into K folds of the same size in a stratified manner, but it doesn't have a similar method of performing a classic train, validation, test split.
+The Scikit Learn library already contains a [StratifiedGroupKFold](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedGroupKFold.html#stratifiedgroupkfold) function, which performs the split of the non overlapping groups into K folds of the same size in a stratified manner, but it doesn't have a similar method for performing a classic train, validation, test split.
 
 ## The Solution
-This problem can be seen as a [subset sum](https://en.wikipedia.org/wiki/Subset_sum_problem) execution for each slipt set and class. In our case, for each split set, a subset sum can be performed to get the gameplays that will enter them, with amount of slices proportional to each of the classes. The sums will be performed over the number of slices/segments each gameplay contains, and the set of groups that amount to a value closer to the target will be selected. 
+This problem can be seen as a [subset sum](https://en.wikipedia.org/wiki/Subset_sum_problem) execution for each slipt set and class. In our case, for each split set, a subset sum can be performed to get the gameplays that will enter them, with amount of slices proportional to each of the classes. The sums will be performed over the number of slices/segments each gameplay contains, and the set of groups that amount to a value closer to the target will be selected.
 
 ### Example:
 If our dataset contains the following groups: 
@@ -39,7 +39,7 @@ Group(1, 'B', 40),  Group(3, 'B', 8), Group(5, 'B', 6)
 <br><br>
 Our target value will be round(0.1*54)=5. Wich yields `Group(5, 'B', 6)`
 <br><br>
-So for the eval set our algorithm returned Group(4, 'A', 4) and Group(5, 'B', 6), since 4 + 6 amounts to 10 and we've got a distribution of almost 50% percent of the slices for each class, this is an optimal solution.
+So, for the eval set, our algorithm returned Group(4, 'A', 4) and Group(5, 'B', 6), since 4 + 6 amounts to 10 and we've got a distribution of almost 50% percent of the slices for each class, this is an optimal solution.
 
 ## Usage
 As desmostrated in the example a group in our implementation in defined as `Group(ID, CLASS, SIZE)`. A set of groups is represented by the class `GroupSet`, wich expects a list of `Group`s. The function `get_split` receives the`GroupSet` that represent your dataset and the split you want to create, which would be `[0.8, 0.1, 0.1]` in our exaple. `get_split` returns a list of `GroupSet`s that correspond to the specified split. Following our example we would have:
