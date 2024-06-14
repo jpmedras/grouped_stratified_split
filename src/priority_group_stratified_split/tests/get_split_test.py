@@ -1,8 +1,5 @@
-import sys
-sys.path.append('./src/priority_group_stratified_split')
-
-from group_set import Group, GroupSet
-from get_split import backward, best_size_groups, get_split
+from priority_group_stratified_split.group_set import Group, GroupSet
+from priority_group_stratified_split.get_split import backward, best_size_groups, get_split
 
 #################
 # Test Backward

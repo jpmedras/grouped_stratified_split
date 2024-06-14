@@ -1,7 +1,4 @@
-import sys
-sys.path.append('./src/priority_group_stratified_split')
-
-from group_set import GroupSet
+from priority_group_stratified_split.group_set import GroupSet 
 
 def backward(sums_dict:dict[int:int], closest_sum:int, group_set:GroupSet) -> GroupSet:
     """

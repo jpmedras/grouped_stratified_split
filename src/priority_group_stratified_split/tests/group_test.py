@@ -1,7 +1,4 @@
-import sys
-sys.path.append('./src/priority_group_stratified_split')
-
-from group_set import Group, GroupSet
+from priority_group_stratified_split.group_set import Group, GroupSet
 
 groups_count = 0
 
