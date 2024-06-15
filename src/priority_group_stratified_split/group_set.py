@@ -1,3 +1,4 @@
+import pandas as pd
 from typing import Any
 
 class Group:
@@ -56,6 +57,20 @@ class GroupSet:
                 self._total_size += g.size
                 self._labels.add(g.label)
 
+    @classmethod
+    def from_df(cls, df:pd.DataFrame, group_col:str='group', label_col:str='label') -> 'GroupSet':
+        if len(df.columns) < 3:
+            raise ValueError(f"DataFrame must contains at last '{group_col}', '{label_col}' and another column")
+
+        groups = []
+        sizes_df = df.groupby(['game_id', 'genre']).count()
+
+        for idx_label, row in sizes_df.iterrows():
+            idx, label = idx_label
+            size = int(row.iloc[0])
+            groups.append(Group(idx, label, size))
+
+        return cls(groups)
 
     def __repr__(self) -> str:
         return f"GroupSet({self._groups})" if len(self._groups) > 0 else 'GroupSet()' 
