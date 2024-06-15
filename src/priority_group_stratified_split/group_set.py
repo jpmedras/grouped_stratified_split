@@ -94,7 +94,7 @@ class GroupSet:
         self._groups.add(group)
         self._total_size += group.size
 
-    def get_uid_indexer(self) -> dict[int: Group]:
+    def get_uid_indexer(self) -> dict[Any: Group]:
         if self._uid_indexer is None:
             self._uid_indexer = {
                 g.uid: g for g in self._groups
@@ -113,3 +113,6 @@ class GroupSet:
                 self._label_indexer[g._label].add(g)
 
         return self._label_indexer
+
+    def get_uids(self) -> list[Any]:
+        return [g.uid for g in self._groups]

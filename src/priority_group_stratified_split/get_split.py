@@ -76,7 +76,7 @@ def stratified_set(group_set:GroupSet, p) -> GroupSet:
         new_set = new_set | new_group_set
     return new_set
 
-def get_split(group_set:GroupSet, percentages:list[float]) -> list[set[int]]:
+def get_split(group_set:GroupSet, percentages:list[float]) -> list[GroupSet]:
     """
         Parameters:
             group_set: GroupSet containing all Groups in the dataset
