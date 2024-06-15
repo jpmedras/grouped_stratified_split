@@ -1,20 +1,20 @@
+from typing import Any
+
 class Group:
-    def __init__(self, uid:int, label:str, size:int) -> None:
+    def __init__(self, uid:Any, label:str, size:int) -> None:
         """
-        Description:
-            An entity that represents a group of samples
+        An entity that represents a group of samples
         
-        Parameters:
-            uid: a unique id for this group
-            g_class: the class label for the samples in this group
-            size: number of samples in this group
+        @param uid: a unique id for this group
+        @param g_class: the class label for the samples in this group
+        @param size: number of samples in this group
         """
         self._uid = uid
         self._label = label
         self._size = size
 
     def __hash__(self) -> int:
-        return self._uid
+        return hash(self._uid)
 
     def __repr__(self) -> str:
         return f"Group({self._uid}, {self._label}, {self._size})"
