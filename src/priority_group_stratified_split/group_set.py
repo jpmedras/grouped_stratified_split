@@ -1,6 +1,9 @@
-import pandas as pd
 from typing import Any
+from functools import total_ordering
+import pandas as pd
 
+
+@total_ordering
 class Group:
     def __init__(self, uid:Any, label:str, size:int) -> None:
         """
@@ -22,6 +25,18 @@ class Group:
 
     def __str__(self) -> str:
         return self.__repr__()
+    
+    def __eq__(self, other):
+        if not isinstance(other, Group):
+            return NotImplemented
+
+        return self.size == other.size
+
+    def __lt__(self, other):
+        if not isinstance(other, Group):
+            return NotImplemented
+
+        return self.size < other.size
 
     @property
     def uid(self):
@@ -106,8 +121,24 @@ class GroupSet:
         return self._labels
 
     def add(self, group:Group):
+        # Check and update uid index
+        if self._uid_indexer:
+            if self._uid_indexer.get(group.uid):
+                raise ValueError(f"Group ID {group.uid} already in GroupSet")
+            else:
+                self._uid_indexer[group.uid] = group
+
         self._groups.add(group)
+
+        # Update total size
         self._total_size += group.size
+
+        # Update label indexer
+        if self._label_indexer:
+            if group._label not in self._label_indexer:
+                self._label_indexer[group._label] = GroupSet()
+
+            self._label_indexer[group._label].add(group)
 
     def get_uid_indexer(self) -> dict[Any: Group]:
         if self._uid_indexer is None:
@@ -131,3 +162,7 @@ class GroupSet:
 
     def get_uids(self) -> list[Any]:
         return [g.uid for g in self._groups]
+
+    def sort(self, reverse=False) -> 'GroupSet':
+        self._groups = set(sorted(self._groups, reverse=reverse))
+        print(self._groups)

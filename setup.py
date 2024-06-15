@@ -73,10 +73,10 @@ setup(
     #
     # Similar to `install_requires` above, these must be valid existing
     # projects.
-    #extras_require={  # Optional
+    extras_require={  # Optional
     #    "dev": ["check-manifest"],
-    #    "test": ["coverage"],
-    #},
+        "test": ["pytest>=8.2.2"],
+    },
     # If there are data files included in your packages that need to be
     # installed, specify them here.
     #package_data={  # Optional

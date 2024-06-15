@@ -102,6 +102,11 @@ def get_split(group_set:GroupSet, percentages:list[float]) -> list[GroupSet]:
     # 80 belongs to position 0
     percentages.sort()
 
+    # Sort group_set to prioretize bigger sets, so that 
+    # smaller ones are left to facilitate the subset sum 
+    # of the next split set
+    group_set.sort(reverse=True)
+
     sizes = [round(p*total_size) for p in percentages]
     # Bigger group is what is left from the others
     sizes[-1] = total_size - sum(sizes[:-1])
