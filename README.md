@@ -4,7 +4,7 @@ Video classification can be a challenging task, not only for the construction of
 
 More specifically, this work aims to deal with the split of the [NES-MVDB](https://github.com/rubensolv/NES-VMDB) dataset. It contains gameplay videos of all the Nintendo Entertainment System (NES) games. We want to classify these videos by genre. The dataset contain the two following tables:
 
-<img src="https://github.com/jpmedras/priority_group_stratified_split/blob/main/assets/imgs/slices_table.png" width="720px" align="center" alt="Slices Table">
+<img src="https://github.com/jpmedras/priority_group_stratified_split/blob/main/assets/imgs/segments_table.png" width="720px" align="center" alt="Slices Table">
 
 <img src="https://github.com/jpmedras/priority_group_stratified_split/blob/main/assets/imgs/genres_table.png" align="center" alt="Genres Table">
 

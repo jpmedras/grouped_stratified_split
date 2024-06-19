@@ -148,7 +148,7 @@ class GroupSet:
 
         return self._uid_indexer
 
-    def get_label_indexer(self) -> dict[str: 'Groups']:
+    def get_label_indexer(self) -> dict[str: 'GroupSet']:
         if self._label_indexer is None:
             self._label_indexer = {}
 
