@@ -1,2 +1,2 @@
 from priority_group_stratified_split.group_set import Group, GroupSet
-from priority_group_stratified_split.get_split import get_split
+from src.priority_group_stratified_split.priority_split import PrioritySplit
