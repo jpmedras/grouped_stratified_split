@@ -1,6 +1,7 @@
+from priority_group_stratified_split.split import Split
 from priority_group_stratified_split.group_set import GroupSet
 
-class PrioritySplit():
+class PrioritySplit(Split):
     def __init__(self) -> None:
         return
 
@@ -116,13 +117,13 @@ class PrioritySplit():
 
         sets = [None for _ in range(len(sizes))]
 
-        # Loop trhough sizes, leaving the bigger group out
+        # Loop through sizes, leaving the bigger group out
         for idx, size in zip(ps_idx[:-1], sizes[:-1]):
             new_set = self._stratified_set(group_set, size/total_size)
             sets[idx] = new_set
             group_set -= new_set
 
-        # The bigger group will be equal to what is left from gourp_set
+        # The bigger group will be equal to what is left from group_set
         sets[ps_idx[-1]] = group_set
 
         return sets
