@@ -25,7 +25,7 @@ class PrioritySplit(Split):
 
         return selected_groups 
 
-    def _best_size_groups(self, group_set: GroupSet, ideal_size) -> GroupSet:
+    def _best_group_set(self, group_set: GroupSet, ideal_size) -> GroupSet:
         """
         @param group_set: A GroupSet from where the sums of group sizes will be calculated
         @param ideal_size: Target size for sum of group sizes
@@ -48,7 +48,7 @@ class PrioritySplit(Split):
                 if sums_dict.get(current_sum) == None:
                     sums_dict[current_sum] = group.uid
 
-                    # Calculate all possible sums
+                    # Calculate distance to ideal_size
                     current_sum_dist = abs(current_sum - ideal_size)
 
                     if current_sum_dist < closest_sum_dist:
@@ -61,10 +61,11 @@ class PrioritySplit(Split):
     def _stratified_set(self, group_set:GroupSet, p) -> GroupSet:
         """
         @param group_set: A set of groups to get splited
-        @param p: proportion of number of samples in this set split over all samples
+        @param p: proportion of number of samples in this split set over all samples
 
         @returns: A set of groups splited by classes in a stratified maner with 
-            samples amounting to a value as close as possible to [size]
+            samples amounting to a value as close as possible to
+            group_set.total_size * p
         """
         new_set = GroupSet()
         g_label_indexer = group_set.get_label_indexer()
@@ -72,7 +73,7 @@ class PrioritySplit(Split):
         for l_group_set in g_label_indexer.values():
             ideal_size = round(l_group_set.total_size * p)
 
-            new_group_set = self._best_size_groups(l_group_set, ideal_size)
+            new_group_set = self._best_group_set(l_group_set, ideal_size)
             new_set = new_set | new_group_set
         return new_set
 
@@ -112,7 +113,7 @@ class PrioritySplit(Split):
         group_set.sort(reverse=True)
 
         sizes = [round(p*total_size) for p in percentages]
-        # Bigger group is what is left from the others
+        # The bigger group is formed by what is left by the others
         sizes[-1] = total_size - sum(sizes[:-1])
 
         sets = [None for _ in range(len(sizes))]
@@ -123,7 +124,7 @@ class PrioritySplit(Split):
             sets[idx] = new_set
             group_set -= new_set
 
-        # The bigger group will be equal to what is left from group_set
+        # The bigger group will be equal to what is left by group_set
         sets[ps_idx[-1]] = group_set
 
         return sets
