@@ -4,7 +4,7 @@ with open("README.md", 'r') as file:
     long_description = file.read()
 
 setup(
-    name="priority_group_stratified_split",
+    name="group_stratified_split",
     # Versions should comply with PEP 440:
     # https://www.python.org/dev/peps/pep-0440/
     #
