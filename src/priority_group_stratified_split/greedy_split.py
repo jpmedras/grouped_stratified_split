@@ -115,7 +115,7 @@ class GreedySplit(Split):
         # 20 belongs to position 2
         percentages.sort(reverse=True)
 
-        knapsacks = [GroupSet() for _ in knapsacks]
+        knapsacks = [GroupSet() for _ in percentages]
 
         g_label_indexer = group_set.get_label_indexer()
 
