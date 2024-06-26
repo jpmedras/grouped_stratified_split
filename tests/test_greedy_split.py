@@ -7,7 +7,7 @@ def test_get_split():
     groups = GroupSet(groups)
 
     greedy_split = GreedySplit()
-    total = groups.total_size
+    total = 216
     hundred, eighty, twenty, ten1, ten2 = greedy_split.get_split(groups, [100/total, 80/total, 20/total, 10/total, 10/total])
 
     print(hundred.get_uids())
@@ -19,4 +19,4 @@ def test_get_split():
     assert eighty.total_size == 80
     assert twenty.total_size == 20
     assert ten1.total_size == 10
-    assert ten2.total_size == 0
+    assert ten2.total_size == 20

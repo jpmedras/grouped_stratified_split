@@ -121,6 +121,10 @@ class GroupSet:
     def labels(self) -> set[str]:
         return self._labels
 
+    @property
+    def groups(self) -> OrderedSet[Group]:
+        return self._groups
+
     def add(self, group:Group):
         # Check and update uid index
         if self._uid_indexer:

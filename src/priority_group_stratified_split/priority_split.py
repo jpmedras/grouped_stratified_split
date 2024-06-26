@@ -90,7 +90,7 @@ class PrioritySplit(Split):
         """
 
         if abs(sum(percentages) - 1) > tolerance:
-            raise ValueError('percentages should sum to 1 + or - tolerance')
+            raise ValueError('Percentages should sum to 1 + or - tolerance')
 
         total_size = group_set.total_size
 
