@@ -5,53 +5,11 @@ from copy import deepcopy
 class GreedySplit(Split):
     def __init__(self) -> None:
         return
-
-    def get_split(self, group_set:GroupSet, percentages:list[float], tolerance:float=0.05, remaining_policy:str='w') -> list[GroupSet]:
-        """
-        @param group_set: GroupSet containing all Groups in the dataset
-        @param percentages: split percentages, e.g., [0.8,0.1,0.1] for a 
-                80:10:10 tain, eval, test split
-        @param tolerance: how much the sum of percentages can deviate from 1
-        @param remaining_policy: How to force remaining groups into the split sets:
-                'n': None. Remaining items won't be putted into any split set.
-                'm': Minimum error. Remaining items will go to split sets causing 
-                    minimum deviation from the ideal set size.
-                'w': Weighted error. Like Minimum error, but it weights by how empty
-                    the split set is. Empty split sets will receive remaining items
-                    regardless of the distance to the ideal set size.
-
-        @return: list of GroupSets with size equal to the @param percentages.
-            Each index i is the split set that corresponds to the percentage
-            defined in percentages[i]
-        """
-
-        if abs(sum(percentages) - 1) > tolerance:
-            raise ValueError('Percentages should sum to 1 + or - tolerance')
-        
-        if remaining_policy not in ['n', 'm', 'w']:
-                raise ValueError('Invalid Remaining Policy')
-
-        total_size = group_set.total_size
-
-        # Get percentages indexes
-        # e.g., 70:10:20 split it would be [0,1,2]
-        ps_idx = [i for i in range(len(percentages))]
-
-        # Order ps_idx from greater to smaller percentages
-        # e.g., 70:20:10 split it would be [0,2,1]
-        ps_idx.sort(key=lambda idx: percentages[idx], reverse=True)
-
-        # Now we sort percentagens in non increasing
-        # order, and ps_idx is how we go back to
-        # to percentages original order
-        # e.g., 70:20:10 and [0,2,1] tells us that 
-        # 20 belongs to position 2
-        percentages.sort(reverse=True)
-
+    def _greedy_group_set(self, group_set: GroupSet, percentages:list[float], remaining_policy:str='w') -> GroupSet:
         # Sort group_set in non inscreasing order
         group_set.sort(reverse=True)
 
-        #TODO: Stratify
+        total_size = group_set.total_size
 
         ###################################################
         # Using the knapsack problem nomeclature for a more
@@ -115,9 +73,62 @@ class GreedySplit(Split):
                 # Add item in the first one
                 knapsacks[knapsacks_idx[0]].add(item)
 
-        ordered_kps = [None for _ in knapsacks]
+            return knapsacks
 
-        for idx, kp in zip(ps_idx, knapsacks):
-            ordered_kps[idx] = kp
+    def get_split(self, group_set:GroupSet, percentages:list[float], tolerance:float=0.05, remaining_policy:str='w') -> list[GroupSet]:
+        """
+        @param group_set: GroupSet containing all Groups in the dataset
+        @param percentages: split percentages, e.g., [0.8,0.1,0.1] for a 
+                80:10:10 tain, eval, test split
+        @param tolerance: how much the sum of percentages can deviate from 1
+        @param remaining_policy: How to force remaining groups into the split sets:
+                'n': None. Remaining items won't be putted into any split set.
+                'm': Minimum error. Remaining items will go to split sets causing 
+                    minimum deviation from the ideal set size.
+                'w': Weighted error. Like Minimum error, but it weights by how empty
+                    the split set is. Empty split sets will receive remaining items
+                    regardless of the distance to the ideal set size.
 
-        return ordered_kps
+        @return: list of GroupSets with size equal to the @param percentages.
+            Each index i is the split set that corresponds to the percentage
+            defined in percentages[i]
+        """
+
+        if abs(sum(percentages) - 1) > tolerance:
+            raise ValueError('Percentages should sum to 1 + or - tolerance')
+        
+        if remaining_policy not in ['n', 'm', 'w']:
+                raise ValueError('Invalid Remaining Policy')
+
+        # Get percentages indexes
+        # e.g., 70:10:20 split it would be [0,1,2]
+        ps_idx = [i for i in range(len(percentages))]
+
+        # Order ps_idx from greater to smaller percentages
+        # e.g., 70:20:10 split it would be [0,2,1]
+        ps_idx.sort(key=lambda idx: percentages[idx], reverse=True)
+
+        # Now we sort percentagens in non increasing
+        # order, and ps_idx is how we go back to
+        # to percentages original order
+        # e.g., 70:20:10 and [0,2,1] tells us that 
+        # 20 belongs to position 2
+        percentages.sort(reverse=True)
+
+        knapsacks = [GroupSet() for _ in knapsacks]
+
+        g_label_indexer = group_set.get_label_indexer()
+
+        # Get greedy sets for each label
+        for l_group_set in g_label_indexer.values():
+            l_knapsacks = self._greedy_group_set(l_group_set, percentages, remaining_policy)
+
+            for idx, l_ks in enumerate(l_knapsacks):
+                knapsacks[idx] |= l_ks
+
+        ordered_knapsacks = [None for _ in knapsacks]
+
+        for idx, ks in zip(ps_idx, knapsacks):
+            ordered_knapsacks[idx] = ks
+
+        return ordered_knapsacks
