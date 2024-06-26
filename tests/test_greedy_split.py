@@ -2,21 +2,17 @@ from src.priority_group_stratified_split.group_set import Group, GroupSet
 from src.priority_group_stratified_split.greedy_split import GreedySplit
 
 def test_get_split():
-    groups = [Group('A', 'A', 20), Group('B', 'A', 30), Group('C', 'A', 50), Group('D', 'A', 10),
-                Group('E', 'A', 55), Group('F', 'A', 30), Group('G', 'A', 20)]
+    groups = [Group('A', 'A', 45), Group('B', 'A', 20), Group('C', 'A', 20), Group('D', 'A', 15)]
     groups = GroupSet(groups)
 
     greedy_split = GreedySplit()
-    total = 216
-    hundred, eighty, twenty, ten1, ten2 = greedy_split.get_split(groups, [100/total, 80/total, 20/total, 10/total, 10/total])
 
-    print(hundred.get_uids())
-    print(eighty.get_uids())
-    print(twenty.get_uids())
-    print(ten1.get_uids())
-    print(ten2.get_uids())
-    assert hundred.total_size == 85
-    assert eighty.total_size == 80
-    assert twenty.total_size == 20
-    assert ten1.total_size == 10
-    assert ten2.total_size == 20
+    train, eval, test = greedy_split.get_split(groups, [0.7, 0.1, 0.2])
+
+    print(train.get_uids())
+    print(eval.get_uids())
+    print(test.get_uids())
+
+    assert train.total_size == 65
+    assert eval.total_size == 15
+    assert test.total_size == 20

@@ -60,7 +60,7 @@ class GreedySplit(Split):
 
         capacities = [round(p*total_size) for p in percentages]
         # The bigger group is formed by what is left by the others
-        capacities[0] = total_size - sum(capacities[:-1])
+        capacities[0] = total_size - sum(capacities[1:])
 
         loads = [0 for _ in capacities]
 
@@ -115,4 +115,9 @@ class GreedySplit(Split):
                 # Add item in the first one
                 knapsacks[knapsacks_idx[0]].add(item)
 
-        return knapsacks
+        ordered_kps = [None for _ in knapsacks]
+
+        for idx, kp in zip(ps_idx, knapsacks):
+            ordered_kps[idx] = kp
+
+        return ordered_kps
