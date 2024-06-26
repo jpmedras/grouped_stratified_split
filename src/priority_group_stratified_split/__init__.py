@@ -1,2 +1,3 @@
 from priority_group_stratified_split.group_set import Group, GroupSet
 from priority_group_stratified_split.priority_split import PrioritySplit
+from priority_group_stratified_split.greedy_split import GreedySplit
