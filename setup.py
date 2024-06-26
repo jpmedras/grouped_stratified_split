@@ -4,7 +4,7 @@ with open("README.md", 'r') as file:
     long_description = file.read()
 
 setup(
-    name="group_stratified_split",
+    name="grouped_stratified_split",
     # Versions should comply with PEP 440:
     # https://www.python.org/dev/peps/pep-0440/
     #
@@ -12,10 +12,10 @@ setup(
     # project code, see
     # https://packaging.python.org/guides/single-sourcing-package-version/
     version="0.0.1",
-    description="Priority Group Stratified Split",
+    description="Grouped Stratified Split",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/jpmedras/priority_group_stratified_split",
+    url="https://github.com/jpmedras/grouped_stratified_split",
     author="Felipe Ferreira Marra and João Pedro Medrado Sena",
     author_email="felipeferreiramarra@gmail.com",
     # Classifiers help users find your project by categorizing it.
