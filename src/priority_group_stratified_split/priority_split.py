@@ -77,19 +77,20 @@ class PrioritySplit(Split):
             new_set = new_set | new_group_set
         return new_set
 
-    def get_split(self, group_set:GroupSet, percentages:list[float]) -> list[GroupSet]:
+    def get_split(self, group_set:GroupSet, percentages:list[float], tolerance:float=0.05) -> list[GroupSet]:
         """
         @param group_set: GroupSet containing all Groups in the dataset
         @param percentages: split percentages, e.g., [0.8,0.1,0.1] for a 
                 80:10:10 tain, eval, test split
+        @param tolerance: how much the sum of percentages can deviate from 1
 
         @return: list of GroupSets with size equal to the @param percentages.
             Each index i is the split set that corresponds to the percentage
             defined in percentages[i]
         """
 
-        if sum(percentages) != 1:
-            raise ValueError('percentages should sum to 1')
+        if abs(sum(percentages) - 1) > tolerance:
+            raise ValueError('percentages should sum to 1 + or - tolerance')
 
         total_size = group_set.total_size
 

@@ -25,11 +25,11 @@ groups1 = GroupSet(groups1)
 groups2 = GroupSet(groups2)
 
 
-print(groups1, groups1.total_size)
-print()
+#print(groups1, groups1.total_size)
+#print()
 
-print(groups2, groups2.total_size)
-print()
+#print(groups2, groups2.total_size)
+#print()
 
 ################# 
 # Test GroupSet Creation
@@ -64,22 +64,22 @@ def test_group_set_add():
     assert groups1.total_size == sum(range(0, 5)) + 2
     assert groups1.get_uids() == [0, 1, 2, 3, 4, 10]
     assert len(groups1.get_label_indexer()['B']) == 3
-    print("###################################")
-    print(groups1)
-    print(groups1.get_label_indexer()['C'])
+    #print("###################################")
+    #print(groups1)
+    #print(groups1.get_label_indexer()['C'])
     assert len(groups1.get_label_indexer()['C']) == 3
 
 ################# 
 # Test Indexers
 #################
 uid_indexer1 = groups1.get_uid_indexer()
-print(uid_indexer1[0])
-print(uid_indexer1[3])
+#print(uid_indexer1[0])
+#print(uid_indexer1[3])
 #print(uid_indexer1[10])
-print()
+#print()
 
 label_indexer1 = groups1.get_label_indexer()
-print(label_indexer1['B'])
-print(label_indexer1['C'])
+#print(label_indexer1['B'])
+#print(label_indexer1['C'])
 #print(label_indexer1['A'])
-print()
+#print()

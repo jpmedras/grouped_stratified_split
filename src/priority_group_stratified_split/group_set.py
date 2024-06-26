@@ -1,6 +1,7 @@
-from typing import Any
+from typing import Any, Dict
 from functools import total_ordering
 import pandas as pd
+from ordered_set import OrderedSet
 
 
 @total_ordering
@@ -59,12 +60,12 @@ class GroupSet:
         groups: A list of Groups
     """
     def __init__(self, groups:list[Group]=None) -> None:
-        self._groups = set(groups) if groups else set()
+        self._groups = OrderedSet(groups) if groups else OrderedSet()
         self._uid_indexer = None
         self._label_indexer = None
 
         # Init and calc labels and total_size
-        self._labels = set()
+        self._labels = OrderedSet()
         self._total_size = 0
 
         if groups:
@@ -140,7 +141,7 @@ class GroupSet:
 
             self._label_indexer[group._label].add(group)
 
-    def get_uid_indexer(self) -> dict[Any: Group]:
+    def get_uid_indexer(self) -> Dict[Any, Group]:
         if self._uid_indexer is None:
             self._uid_indexer = {
                 g.uid: g for g in self._groups
@@ -148,7 +149,7 @@ class GroupSet:
 
         return self._uid_indexer
 
-    def get_label_indexer(self) -> dict[str: 'GroupSet']:
+    def get_label_indexer(self) -> Dict[str, 'GroupSet']:
         if self._label_indexer is None:
             self._label_indexer = {}
 
@@ -164,5 +165,4 @@ class GroupSet:
         return [g.uid for g in self._groups]
 
     def sort(self, reverse=False) -> 'GroupSet':
-        self._groups = set(sorted(self._groups, reverse=reverse))
-        print(self._groups)
+        self._groups = OrderedSet(sorted(self._groups, reverse=reverse))
