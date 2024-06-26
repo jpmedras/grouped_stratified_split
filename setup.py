@@ -64,7 +64,7 @@ setup(
     #
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/discussions/install-requires-vs-requirements/
-    install_requires=["pandas>=2.2.2","openpyxl>=3.1.4"],  # Optional
+    install_requires=["pandas>=2.2.2","openpyxl>=3.1.4","ordered-set==4.1.0"],  # Optional
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"
     # syntax, for example:
