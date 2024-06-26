@@ -1,4 +1,5 @@
-# Priority Stratified Group Split
+# Grouped Stratified Split
+
 ## The Problem
 Video classification can be a challenging task, not only for the construction of the neural model itself, but also for the dataset split into train, validation and test sets. The videos are generally split into smaller slices/segments of a few seconds. Each of these arrays of segments is considered a group. These groups can’t repeat in the split sets, that is, if a group is present in the train set, it can’t have any of its segments also present in the validation or test sets. This work aims to respond to the following question: **How to distribute the groups of different sizes between the split sets balanced by its classes?**
 
