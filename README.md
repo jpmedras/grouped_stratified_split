@@ -31,5 +31,5 @@ For a dataset in the form `GROUP, ITEM_NAME, LABEL` as ilustrated in the followi
 ![alt text](https://github.com/jpmedras/grouped_stratified_split/blob/main/assets/imgs/from_df.webp?raw=true)
 
 ```Python
-groups = GroupSet.from_df(pgss_df, 'game_id', 'genre')
+groups = GroupSet.from_df(nes_mvdb_dataframe, 'game_id', 'genre')
 ```
