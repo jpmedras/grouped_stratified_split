@@ -5,9 +5,16 @@ This package solves the problem of performing a stratified split in a grouped da
 
 A more comprehensive read about the problem and how the solution was designed can be found at [this blog post](https://medium.com/@felipeferreiramarra/stratified-split-for-grouped-datasets-with-dynamic-programming-76928a5f7eca).
 
+## Instalation
+```Bach
+python3 -m pip install git+https://github.com/jpmedras/grouped_stratified_split
+```
+
 ## Usage
 A group in our implementation in defined as `Group(ID, CLASS, SIZE)`. A set of groups is represented by the class `GroupSet`, wich expects a list of `Group`s. The function `get_split` receives the`GroupSet` that represent your dataset and the split you want to create, which may be `[0.8, 0.1, 0.1]` for exaple. `get_split` returns a list of `GroupSet`s that correspond to the specified split.
 ```Python
+from priority_group_stratified_split import Group, GroupSet, PrioritySplit
+
 groups = [Group(0, 'A', 40), Group(1, 'B', 40), Group(2, 'A', 2), Group(3, 'B', 8), Group(4, 'A', 4), Group(5, 'B', 6)]
 groups = GroupSet(groups)
 
