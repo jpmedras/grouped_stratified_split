@@ -25,3 +25,11 @@ print(sets)
 # Displays: [GroupSet({Group(0, A, 40), Group(1, B, 40)}), GroupSet({Group(4, A, 4), Group(5, B, 6)}), GroupSet({Group(2, A, 2), Group(3, B, 8)})]
 ```
 To use the Greedy solution just instanciate the `GreedySplit` class instead of `PrioritySplit`.
+
+For a dataset in the form `GROUP, ITEM_NAME, LABEL` as ilustrated in the following image, use the `from_df` method to create the groups.
+
+![alt text](https://github.com/jpmedras/grouped_stratified_split/blob/main/assets/imgs/from_df.webp?raw=true)
+
+```Python
+groups = GroupSet.from_df(pgss_df, 'game_id', 'genre')
+```
