@@ -5,7 +5,7 @@ This package solves the problem of performing a stratified split in a grouped da
 
 A more comprehensive read about the problem and how the solution was designed can be found at [this blog post](https://medium.com/@felipeferreiramarra/stratified-split-for-grouped-datasets-with-dynamic-programming-76928a5f7eca).
 
-## Instalation
+## Installation
 ```Bach
 python3 -m pip install git+https://github.com/jpmedras/grouped_stratified_split
 ```
