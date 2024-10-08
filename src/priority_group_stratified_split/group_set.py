@@ -168,5 +168,5 @@ class GroupSet:
     def get_uids(self) -> list[Any]:
         return [g.uid for g in self._groups]
 
-    def sort(self, reverse=False) -> 'GroupSet':
+    def sort(self, reverse=False):
         self._groups = OrderedSet(sorted(self._groups, reverse=reverse))

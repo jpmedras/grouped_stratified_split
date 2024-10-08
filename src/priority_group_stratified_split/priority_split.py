@@ -80,7 +80,7 @@ class PrioritySplit(Split):
     def get_split(self, group_set:GroupSet, percentages:list[float], tolerance:float=0.05) -> list[GroupSet]:
         """
         @param group_set: GroupSet containing all Groups in the dataset
-        @param percentages: split percentages, e.g., [0.8,0.1,0.1] for a 
+        @param percentages: split percentages, e.g., [0.8, 0.1, 0.1] for a 
                 80:10:10 tain, eval, test split
         @param tolerance: how much the sum of percentages can deviate from 1
 
