@@ -9,10 +9,11 @@ class Group:
     def __init__(self, uid:Any, label:str, size:int) -> None:
         """
         An entity that represents a group of samples
-        
-        @param uid: a unique id for this group
-        @param g_class: the class label for the samples in this group
-        @param size: number of samples in this group
+
+        Args:
+            uid: a unique id for this group
+            label: the class label for the samples in this group
+            size: number of samples in this group
         """
         self._uid = uid
         self._label = label
@@ -26,7 +27,7 @@ class Group:
 
     def __str__(self) -> str:
         return self.__repr__()
-    
+
     def __eq__(self, other):
         if not isinstance(other, Group):
             return NotImplemented
@@ -53,10 +54,9 @@ class Group:
 
 class GroupSet:
     """
-    Description:
     A set of Group objects
 
-    Parameters:
+    Args:
         groups: A list of Groups
     """
     def __init__(self, groups:list[Group]=None) -> None:
@@ -69,17 +69,25 @@ class GroupSet:
         self._total_size = 0
 
         if groups:
-            for g in groups:
-                self._total_size += g.size
-                self._labels.add(g.label)
+            for group in groups:
+                self._total_size += group.size
+                self._labels.add(group.label)
 
     @classmethod
     def from_df(cls, df:pd.DataFrame, group_col:str='group', label_col:str='label') -> 'GroupSet':
+        """
+            Create a GroupSet from a pandas dataframe
+
+            Args:
+                df: the pandas dataframe
+                group_col: the column in df that identify the groups
+                label_col: the column in df that identify the label of the groups
+        """
         if len(df.columns) < 3:
             raise ValueError(f"DataFrame must contains at last '{group_col}', '{label_col}' and another column")
 
         groups = []
-        sizes_df = df.groupby(['game_id', 'genre']).count()
+        sizes_df = df.groupby([group_col, label_col]).count()
 
         for idx_label, row in sizes_df.iterrows():
             idx, label = idx_label
@@ -89,10 +97,10 @@ class GroupSet:
         return cls(groups)
 
     def __repr__(self) -> str:
-        return f"GroupSet({self._groups})" if len(self._groups) > 0 else 'GroupSet()' 
+        return f"GroupSet({self._groups})" if len(self._groups) > 0 else 'GroupSet()'
 
     def __str__(self) -> str:
-        return f"GroupSet({self._groups})" if len(self._groups) > 0 else 'GroupSet()' 
+        return self.__repr__()
 
     def __len__(self):
         return len(self._groups) if self._groups else 0
@@ -100,12 +108,13 @@ class GroupSet:
     def __iter__(self):
         return iter(self._groups)
 
-    def __or__(self, other) -> 'GroupSet':
+    def __or__(self, other: 'GroupSet') -> 'GroupSet':
         return GroupSet(self._groups | other._groups)
 
     def __sub__(self, other: 'GroupSet') -> 'GroupSet':
         return GroupSet(self._groups - other._groups)
 
+    # TODO: Set assertions in this functions for isinstance(other, GroupSet). Currently it will return an error that is probably due to how the GroupSet class is imported in different files
     def __isub__(self, other: 'GroupSet') -> 'GroupSet':
         self = GroupSet(self._groups - other._groups)
         return self
@@ -118,7 +127,7 @@ class GroupSet:
         return self._total_size
 
     @property
-    def labels(self) -> set[str]:
+    def labels(self) -> OrderedSet[str]:
         return self._labels
 
     @property

@@ -7,7 +7,7 @@ def create_groups(n:int, seq_labels:int):
     n += groups_count
 
     groups = []
-    
+
     char_add = 0
     for i in range(groups_count, n):
         char_add = char_add +1 if i % seq_labels == 0 else char_add
